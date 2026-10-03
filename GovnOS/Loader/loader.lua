@@ -1,13 +1,29 @@
-local mode = ...
+local info = http.get("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/Info.txt")
+info = textutils.unserialise(info.readAll())
 
-local info = http.get("https://github.com/Solar40990/GovnoCode/blob/main/GovnOS/Info")
-info = textutils.unserialise(info)
-
-for i,file in pairs(info[mode].files) do
-    local newFile = http.get("https://github.com/Solar40990/GovnoCode/blob/main/GovnOS/"..mode..file)
+function installFile (file,folder)
+    print(file)
+    local newFile = http.get(("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/%s/%s.lua"):format(folder,file))
+    
     if newFile then
-        local currentFile = fs.open(file,"w")
+        newFile = newFile.readAll()
+        local currentFile = fs.open(file..".lua","w")
         currentFile.write(newFile)
         currentFile.close()
+    end
+end
+
+for _,name in pairs({...,"Loader"}) do
+    local setting = name.."_version"
+
+    local newVersion = info[name].version
+    local currentVersion = settings.get(setting)
+
+    if currentVersion ~= newVersion then
+        settings.set(setting,newVersion)
+        settings.save()
+        for _,file in pairs(info[name].files) do
+            installFile(file,name)
+        end
     end
 end

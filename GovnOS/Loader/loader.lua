@@ -1,45 +1,49 @@
+print("Connecting to github.\n")
+
 local info = http.get("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/Info.txt")
-if not info then return end
+if not info then error("Failed to get info!") end
 info = textutils.unserialise(info.readAll())
 
 function installFile (file,folder)
     local newFile = http.get(("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/%s/%s.lua"):format(folder,file))
+
+    if not newFile then return end
+    newFile = newFile.readAll()
     
-    if newFile then
-        newFile = newFile.readAll()
-        local currentFile = fs.open(file..".lua","w")
-        currentFile.write(newFile)
-        currentFile.close()
-    end
+    local currentFile = fs.open(file..".lua","w")
+    currentFile.write(newFile)
+    currentFile.close()
 end
 
 local notUpdated = {}
 local updated = {}
 
-for i,name in pairs({...,"Loader"}) do
-    local setting = name.."_version"
+for i,folder in pairs({...,"Loader"}) do
+    local setting = folder.."_version"
 
-    local newVersion = info[name].version
+    local newVersion = info[folder].version
     local currentVersion = settings.get(setting)
 
-    if currentVersion ~= newVersion then
+    if currentVersion == newVersion then
         settings.set(setting,newVersion)
         settings.save()
-        for i,file in pairs(info[name].files) do
-            installFile(file,name)
+
+        for _,file in pairs(info[folder].files) do
+            --installFile(file,folder)
         end
-        updated[i] = name
+
+        updated[i] = folder
     else
-        notUpdated[i] = name
+        notUpdated[i] = folder
     end
 end
 
 if #notUpdated > 0 then
-    print(table.concat(notUpdated,", ").." are up to date!")
+    print(table.concat(notUpdated,", ").." are up to date!".."\n")
 end
 
 if #updated > 0 then
-    print("Successfully updated: "..table.concat(updated,", "))
+    print("Successfully updated: "..table.concat(updated,", ").."\n")
 end
 
 os.sleep(3)

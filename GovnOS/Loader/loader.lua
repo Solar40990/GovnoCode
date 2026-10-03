@@ -3,7 +3,6 @@ if not info then return end
 info = textutils.unserialise(info.readAll())
 
 function installFile (file,folder)
-    print(file)
     local newFile = http.get(("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/%s/%s.lua"):format(folder,file))
     
     if newFile then

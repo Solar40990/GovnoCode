@@ -4,11 +4,11 @@
         files = {"system"}
     },
     Client = {
-        version = 1,
+        version = 2,
         files = {"system","startup"}
     },
     Loader = {
-        version = 1,
+        version = 2,
         files = {"loader"}
     }
 }

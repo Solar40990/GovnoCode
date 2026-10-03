@@ -1,3 +1,9 @@
+term.setCursorPos(1,1)
+term.write("--------------------------")
+term.setCursorPos(1,20)
+term.write("--------------------------")
+term.setCursorPos(1,2)
+
 if not fs.exists("loader.lua") then
     local code = http.get("https://raw.githubusercontent.com/Solar40990/GovnoCode/refs/heads/main/GovnOS/Loader/loader.lua")
 

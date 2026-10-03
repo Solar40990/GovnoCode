@@ -1,0 +1,14 @@
+{
+    Server = {
+        version = 1
+        files = {"system.lua"}
+    }
+    Client = {
+        version = 1
+        files = {"system.lua"}
+    }
+    Loader = {
+        version = 1
+        files = {"startup.lua"}
+    }
+}

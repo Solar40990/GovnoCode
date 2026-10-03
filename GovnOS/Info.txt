@@ -1,14 +1,14 @@
 {
     Server = {
         version = 1,
-        files = {"system.lua"}
+        files = {"system"}
     },
     Client = {
         version = 1,
-        files = {"system.lua"}
+        files = {"system","startup"}
     },
     Loader = {
         version = 1,
-        files = {"startup.lua"}
+        files = {"loader"}
     }
 }

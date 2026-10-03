@@ -24,12 +24,12 @@ for i,folder in pairs({...,"Loader"}) do
     local newVersion = info[folder].version
     local currentVersion = settings.get(setting)
 
-    if currentVersion == newVersion then
+    if currentVersion ~= newVersion then
         settings.set(setting,newVersion)
         settings.save()
 
         for _,file in pairs(info[folder].files) do
-            --installFile(file,folder)
+            installFile(file,folder)
         end
 
         updated[i] = folder
